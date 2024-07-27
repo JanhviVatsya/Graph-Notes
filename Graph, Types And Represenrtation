@@ -1,0 +1,84 @@
+TYPES
+1. Directed And Undirected
+2. Cyclic And Non-Cyclic/ Acyclic
+
+TERMS
+1. Nodes/Vertex
+2. Edge -> the line that connects nodes, can be directed and undirected -> if arrow ->directed
+3. Path -> can contain a lot of vertices, edges, and each of them are reachable.
+           A node cannot appear twice in a path
+4. Degree -> No of edges that go inside or outside of a node
+           Total degree of a graph (undirected) = 2 * No of edges
+           For directed Graph :
+           1. Indegree -> No of incoming edges of a node
+           2. Outdegree -> No of outgoing edges for a node
+5. Edge Weight -> Any weight assigned to a edge
+                 If no weight given, then weight = 1 (assume)
+
+REPRESENTATION
+In questions given-> 
+1. if graph is directed or undirected
+2. no of nodes -> N
+3. no of egdes -> M
+Then M no of input lines indicating the two nodes connected together
+
+MATRIX WAY -> ADJACENCY MATRIX
+Suppose n= 5 starting from 1 i.e. 1 - 3 
+                                  |   |  > 5
+                                  2 - 4
+
+Now let Adjacency matrix be adj[n+1][m+1] initialized from 0 indexing
+  0 1 2 3 4 5      // Go to the nodes connected and mark their intersection as 1
+0                  // example for 1st node -> go to 1 and 2 and mark their intersection as 1
+1     1 1          // since 1 and 2 are connected and undirected graph -> 2 and 1 are connected as well
+2   1     1        //similarly for all the nodes
+3   1     1 1
+4     1 1   1
+5        1 1
+ // All the remaining cells = 0 (may or may not fill)
+
+CODE: 
+int main(){
+   int n , m;
+   cin>> n >> m;
+   int adj[n+1][m+1];
+   for(int i=0; i<m; i++){
+      int u,  v;
+      cin>> u>> v;
+      adj[u][v] = 1;
+      adj[v][u] = 1;
+   }
+   return 0;
+}
+
+SC: O(n^2)
+
+ARRAY WAY -> ADJACENCY LIST
+Make an array -> adj[n+1] i.e vector<int> adj[n+1] and store the neighbours
+0
+1 -> { 2,3}
+2 -> { 1,4,5}
+3 -> { 1,4}
+4 -> { 3,2,5}
+5 -> { 2,4}
+
+CODE: (for undirected graph)
+int main(){
+  int n, m;
+  cin>>n>>m;
+vectro<int> adj[n+1];
+  for(int i=0; i<m; i++){
+     int u,v;
+     cin>>u>>v;
+     adj[u].push_back(v);
+     adj[v].push_back(u); //for directed graph this line is not there in the code
+  }
+return 0;
+}
+
+SC: 0(2* no of edges)
+
+For weighted Graphs :
+ADJACENCY MATRIX METHOD -> Fill the wights instead of 1 in the matrix
+ADJACENCY LISTT METHOD -> Store pairs i.e. (neighbour, weight) on the indexes of the node
+instaed of vector<int>adj[n+1] we will create vector<pair<int,int>>adj[n+1]
