@@ -1,0 +1,22 @@
+Code:
+
+vector<int>ls;
+    
+    void dfs(int node, vector<int>&ls, int vis[], vector<int>adj[]){
+        vis[node]=1;
+        ls.push_back(node);
+        for(auto it: adj[node]){
+            if(!vis[it]){
+                dfs(it, ls, vis, adj);
+            }
+        }
+        return;
+    }
+    
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        int vis[V]={0};
+        int start=0;
+        dfs(start, ls, vis, adj);
+        return ls;
+    }
