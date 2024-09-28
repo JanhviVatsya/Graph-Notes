@@ -1,3 +1,4 @@
+Method 1 Without converting adj matrix to adj list
 
 void dfs(int node, vector<vector<int>>& isConnected , vector<int>&vis){
     vis[node]=1;
@@ -19,4 +20,46 @@ void dfs(int node, vector<vector<int>>& isConnected , vector<int>&vis){
             }
         }
         return cnt;
+    }
+
+___________________________________________________________________________________________________________________________
+
+Method 2 Converting Adj Matrix to Adj List (Striver Method)
+
+void convert(vector<vector<int>>& isConnected, unordered_map<int,list<int>>& adjLs, int n, int m){
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(isConnected[i][j]==1 && i!=j){
+                adjLs[i].push_back(j);
+            }
+        }
+    }
+    return;
+}
+
+void dfs(int node, unordered_map<int,list<int>>& adjLs, unordered_map<int,bool>& vis){
+    vis[node]= true;
+    for(auto it: adjLs[node]){
+        if(!vis[it]){
+            // vis[it]=true;
+            dfs(it, adjLs, vis);
+        }
+    }
+    return;
+}
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        unordered_map<int,list<int>> adjLs;
+        int n = isConnected.size();
+        int m = isConnected[0].size();
+        convert(isConnected, adjLs, n, m);
+        unordered_map<int,bool> vis;
+        int count=0;
+        for(int i=0; i<n; i++){
+            if(!vis[i]){
+                dfs(i, adjLs, vis);
+                count++;
+            }
+        }
+        return count;
     }
