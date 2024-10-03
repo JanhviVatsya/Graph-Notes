@@ -1,0 +1,39 @@
+Intuition
+BFS/DFS traversal (Graph)
+
+Approach
+We'll go for DFS as there's no requirement of minimum time taken to color the matrix (BFS gives minimum steps or minimum time taken because it goes level wise to understand this concept better solve question "Rotten Oranges") but DFS goes depth wise
+
+Complexity
+Time complexity:
+O(n*m) where n=no of rows and m= no of columns
+
+Space complexity:
+O(n*m) where n=no of rows and m= no of columns
+
+Code
+
+void dfs(int row, int col, int colorini, int color, vector<vector<int>>& ans, vector<vector<int>>& image){
+    int n=image.size();
+    int m=image[0].size();
+    vector<int> delRow={-1, 0, 1, 0};
+    vector<int> delCol={0, 1, 0, -1};
+
+    ans[row][col]= color;
+
+    for(int i=0; i<4; i++){
+        int nrow= row + delRow[i];
+        int ncol= col + delCol[i];
+
+        if(nrow>=0 && nrow<n && ncol>=0 && ncol<m && image[nrow][ncol]==colorini && ans[nrow][ncol]!=color){
+            dfs(nrow, ncol, colorini, color, ans, image);
+        }
+    }
+}
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int colorini= image[sr][sc];
+        vector<vector<int>> ans= image;
+        dfs(sr, sc, colorini, color, ans, image);
+        return ans;
+    }
